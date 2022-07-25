@@ -1,7 +1,7 @@
 {
-	"name": "baraja-core/template",
-	"description": "This is a template package.",
-	"homepage": "https://github.com/baraja-core/template",
+	"name": "baraja-core/serializer",
+	"description": "Simple serializer any PHP type or structure to simple scalar array.",
+	"homepage": "https://github.com/baraja-core/serializer",
 	"authors": [
 		{
 			"name": "Jan Barášek",
