@@ -12,6 +12,10 @@
 		"php": "^8.0"
 	},
 	"require-dev": {
+		"baraja-core/localization": "^2.0",
+		"baraja-core/ecommerce-standard": "^0.0",
+		"nette/utils": "^3.2",
+		"tracy/tracy": "^2.8",
 		"phpstan/phpstan": "^1.0",
 		"phpstan/extension-installer": "^1.1",
 		"phpstan/phpstan-nette": "^1.0",
