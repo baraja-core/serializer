@@ -51,20 +51,15 @@ final class Serializer
 		if (is_iterable($haystack)) {
 			$return = [];
 			foreach ($haystack as $key => $value) {
-				$return[$key] = $this->hideKey($key, $value)
+				$return[$key] = $this->hideKey((string) $key, $value)
 					? self::HiddenKeyLabel
 					: $this->process($value, 0);
 			}
 
 			return $return;
 		}
-		if (is_object($haystack)) {
-			return $this->processObject($haystack, 0);
-		}
 
-		throw new \InvalidArgumentException(
-			sprintf('Value type "%s" can not be serialized.', get_debug_type($haystack)),
-		);
+		return $this->processObject($haystack, 0);
 	}
 
 
@@ -181,7 +176,7 @@ final class Serializer
 					sprintf('Convention error: Paginator must be in key "paginator", but "%s" given.', $key),
 				);
 			}
-			$return[$key] = $this->hideKey($key, $value)
+			$return[$key] = $this->hideKey((string) $key, $value)
 				? self::HiddenKeyLabel
 				: $this->process($value, $level, $trackedInstanceHashes);
 		}
@@ -250,7 +245,7 @@ final class Serializer
 	}
 
 
-	private function hideKey(mixed $key, mixed $value): bool
+	private function hideKey(string $key, mixed $value): bool
 	{
 		static $hide;
 

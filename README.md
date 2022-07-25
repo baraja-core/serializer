@@ -12,13 +12,13 @@ How to use
 
 ```php
 class DTO {
-	__construct(
+	public function __construct(
 		public string $name,
 	) {
 	}
 }
 
-$serializer = Serializer::get();
+$serializer = \Baraja\Serializer\Serializer::get();
 var_dump($serializer->serialize(
 	new DTO(name: 'Jan'),
 ));
