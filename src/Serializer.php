@@ -125,15 +125,23 @@ final class Serializer
 	 */
 	private function processObject(object $haystack, int $level, array $trackedInstanceHashes = []): array
 	{
-		$return = [];
-		$ref = new \ReflectionClass($haystack);
-		foreach ($ref->getProperties() as $property) {
-			$property->setAccessible(true);
-			$key = $property->getName();
-			if (($key[0] ?? '') === '_') { // (security) ignore internal properties
-				continue;
+		$values = [];
+		if (!$haystack instanceof \stdClass && class_exists(get_class($haystack))) {
+			$ref = new \ReflectionClass($haystack);
+			foreach ($ref->getProperties() as $property) {
+				$property->setAccessible(true);
+				$key = $property->getName();
+				if (($key[0] ?? '') === '_') { // (security) ignore internal properties
+					continue;
+				}
+				$values[$property->getName()] = $property->getValue($haystack);
 			}
-			$value = $property->getValue($haystack);
+		} else {
+			$values = get_object_vars($haystack);
+		}
+
+		$return = [];
+		foreach ($values as $key => $value) {
 			if ($value === null && $this->convention->isRewriteNullToUndefined()) {
 				continue;
 			}
@@ -147,7 +155,7 @@ final class Serializer
 				}
 				$trackedInstanceHashes[$objectHash] = true;
 			}
-			$return[$property->getName()] = $this->process($value, $level, $trackedInstanceHashes);
+			$return[$key] = $this->process($value, $level, $trackedInstanceHashes);
 		}
 
 		return $return;
