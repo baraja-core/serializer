@@ -126,7 +126,7 @@ final class Serializer
 	private function processObject(object $haystack, int $level, array $trackedInstanceHashes = []): array
 	{
 		$values = [];
-		if (!$haystack instanceof \stdClass && class_exists(get_class($haystack))) {
+		if (!$haystack instanceof \stdClass && class_exists($haystack::class)) {
 			$ref = new \ReflectionClass($haystack);
 			foreach ($ref->getProperties() as $property) {
 				$property->setAccessible(true);
